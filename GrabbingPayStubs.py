@@ -25,7 +25,7 @@ class GrabbingPayStubs(unittest.TestCase):
 
     def setUp(self):
         chromeOptions = webdriver.ChromeOptions()
-        prefs = {'download.default_directory' : self.downloadFilePath}
+        prefs = {'plugins.plugins_list': [{'enabled':False, 'name': 'Chrome PDF Viewer'}], 'download.default_directory' : self.downloadFilePath}
         chromeOptions.add_experimental_option('prefs', prefs)
         self.cdriver = webdriver.Chrome(executable_path=self.chromeDriverLoc, chrome_options=chromeOptions)
         self.cdriver.get(self.adpURL)
@@ -44,7 +44,11 @@ class GrabbingPayStubs(unittest.TestCase):
         #select.select_by_visible_text('Pay Statment')
         time.sleep(10)
         self.cdriver.find_element_by_partial_link_text('2016').click()
-        time.sleep(10)
+        time.sleep(14)
+        #self.cdriver.find_element_by_css_selector('#icon').click()
+        ftgt = Forge.path.join(self.downloadFilePath, 'downloaed.pdf')
+        while not Forge.path.exists(ftgt):
+            time.sleep(3)
 
         self.assertTrue(True, 'huh')
 
