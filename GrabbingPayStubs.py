@@ -51,28 +51,45 @@ class GrabbingPayStubs(unittest.TestCase):
         # time.sleep(10)
         #self.cdriver.find_element_by_partial_link_text('2016').click()
         time.sleep(4)
+        foxtrot = self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]')
+        while foxtrot.is_displayed():
+            whiskey2 = []
+            whiskey = self.cdriver.find_elements_by_partial_link_text('201')
+            for webElement in whiskey:
+                whiskey2.append(webElement.text)
 
-        whiskey = self.cdriver.find_elements_by_partial_link_text('2016')
-        for lnks in whiskey:
-            pdf = lnks.text.replace('/', '.')
-            pdfName = (pdf + '.pdf')
-            secdriver = webdriver.Chrome(self.chromeDriverLoc)
-            #lnks.click()
-           # self.cdriver.execute_script("window.open('');", lnks.get_attribute('href'))
-            secdriver.get(lnks.get_attribute('href'))
-            time.sleep(4)
-            tango = secdriver.find_element_by_id('embedPdf').get_attribute('src')
-            #self.cdriver.get(tango)
-            secdriver.get(tango)
-            time.sleep(4)
-            Forge.rename('download.pdf', pdfName)
-            time.sleep(6)
-            self.cdriver.back()
-            time.sleep(6)
-            self.cdriver.refresh()
-            #self.cdriver.find_element_by_id('cancelTopCenter').click()
-            time.sleep(10)
+        #main_chrome = self.cdriver.current_window_handle
 
+            for lnks in whiskey2:
+
+                pdf = lnks.replace('/', '.')
+                pdfName = (pdf + '.pdf')
+                self.cdriver.find_element_by_link_text(lnks).click()
+
+            #lnks.send_keys(Keys.COMMAND + Keys.ENTER)
+            #self.cdriver.execute_script("window.open('www.google.com');", '_blank')
+            #self.cdriver.execute_script('''window.open("about:blank", "_blank");''')
+                time.sleep(2)
+            #self.cdriver.get(lnks.get_attribute('href'))
+            #lnks.send_keys(Keys.CONTROL + Keys.TAB)
+            #self.cdriver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + Keys.NUMPAD2)
+            #time.sleep(16)
+
+                tango = self.cdriver.find_element_by_id('embedPdf').get_attribute('src')
+                self.cdriver.get(tango)
+                time.sleep(4)
+                Forge.rename('download.pdf', pdfName)
+                time.sleep(4)
+
+            #self.cdriver.close()
+            #time.sleep(6)
+            #self.cdriver.refresh()
+                self.cdriver.find_element_by_id('cancelTopCenter').click()
+                time.sleep(6)
+            foxtrot = self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]')
+            foxtrot.click()
+            time.sleep(4)
+            foxtrot = self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]')
         #self.cdriver.find_element_by_css_selector('#icon').click()
         time.sleep(10)
         #tango = self.cdriver.find_element_by_id('embedPdf').get_attribute('src')
