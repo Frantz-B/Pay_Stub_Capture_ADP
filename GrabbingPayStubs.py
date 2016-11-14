@@ -30,6 +30,7 @@ class GrabbingPayStubs(unittest.TestCase):
         self.cdriver = webdriver.Chrome(executable_path=self.chromeDriverLoc, chrome_options=chromeOptions)
         self.cdriver.get(self.adpURL)
 
+
     def test_Find_Login(self):
         login = self.cdriver.find_element_by_id('user_id')
         passField = self.cdriver.find_element_by_id('password')
@@ -42,16 +43,18 @@ class GrabbingPayStubs(unittest.TestCase):
         self.cdriver.find_element_by_partial_link_text('Pay Sta').click()
         #self.cdriver.find_element_by_css_selector('#dropMenu>table>tbody>tr:nth-child(2)>td>nobr>a').click()
         #select.select_by_visible_text('Pay Statment')
-        time.sleep(10)
+        # time.sleep(10)
         self.cdriver.find_element_by_partial_link_text('2016').click()
-        time.sleep(14)
+        time.sleep(4)
         #self.cdriver.find_element_by_css_selector('#icon').click()
-        ftgt = Forge.path.join(self.downloadFilePath, 'downloaed.pdf')
-        while not Forge.path.exists(ftgt):
+        tango = self.cdriver.find_element_by_id('embedPdf').get_attribute('src')
+        self.cdriver.get(tango)
+        #ftgt = Forge.path.join(self.downloadFilePath, 'downloaed.pdf')
+        while not True:
             time.sleep(3)
 
         self.assertTrue(True, 'huh')
 
     def tearDown(self):
-        seix = 2
-        print(seix)
+        Forge.rename('download.pdf', 'nuts.pdf')
+        print(self.downloadPath)
