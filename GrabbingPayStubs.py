@@ -2,11 +2,9 @@ import os as Forge
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import Select
 import time
 import unittest
 import shutil
-#selenium.common.exceptions.NoSuchElementException
 
 
 class GrabbingPayStubs(unittest.TestCase):
@@ -16,14 +14,9 @@ class GrabbingPayStubs(unittest.TestCase):
     userName = 'FBazile@Innotech1'
     passWord = ''
 
-    #ooosht = Forge.getcwd()
-    #print('this is the directory ', ooosht)
-
     downloadFilePath = '/Users/NewUser/Documents/Career/2'
     Forge.chdir(downloadFilePath)
     folderNames = []
-    #downloadPath = Forge.getcwd()
-    #print(downloadPath)
 
     def setUp(self):
         chromeOptions = webdriver.ChromeOptions()
@@ -43,11 +36,14 @@ class GrabbingPayStubs(unittest.TestCase):
 
         self.cdriver.find_element_by_id('menuHit.node2').click()
         self.cdriver.find_element_by_partial_link_text('Pay Statement').click()
+        #time.sleep(150)
 
-        time.sleep(4)
-        #foxtrot = self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]')
+        #I Know Kung Fu..
+        moko = self.cdriver.find_element_by_xpath('//*[contains (@id, "viewns_Z7")]/b')
+
 
         whenToStop = True
+        count = 0
         while whenToStop:
 
             #Grab 1st column names & years for paystubs
@@ -68,28 +64,24 @@ class GrabbingPayStubs(unittest.TestCase):
                 pdfName = (pdf + '.pdf')
                 self.cdriver.find_element_by_link_text(lnk).click()
 
-                #time.sleep(4)
-
                 tango = self.cdriver.find_element_by_id('embedPdf').get_attribute('src')
                 self.cdriver.get(tango)
                 time.sleep(4)
                 Forge.rename('download.pdf', pdfName)
-                #time.sleep(4)
+                count += 1
 
                 self.cdriver.find_element_by_id('cancelTopCenter').click()
-                #time.sleep(6)
+
 
             try:
                 self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]').click()
                 time.sleep(6)
             except NoSuchElementException:
                 whenToStop = False
-
-        self.assertTrue(True, 'huh')
+        self.assertEqual(moko, 77, "did not work")
+        #self.assertTrue(True, 'huh')
 
     def tearDown(self):
-       # print(self.downloadPath)
-
         for year in self.folderNames:
             Forge.mkdir(year)
 
