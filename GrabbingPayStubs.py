@@ -1,11 +1,12 @@
 import os as Forge
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 import time
 import unittest
 import shutil
-
+#selenium.common.exceptions.NoSuchElementException
 
 
 class GrabbingPayStubs(unittest.TestCase):
@@ -13,7 +14,7 @@ class GrabbingPayStubs(unittest.TestCase):
     chromeDriverLoc = "/Users/NewUser/Downloads/Automation/chromedriver"
     adpURL = 'https://online.adp.com/portal/login.html'
     userName = 'FBazile@Innotech1'
-    passWord = 'red4red4'
+    passWord = ''
 
     #ooosht = Forge.getcwd()
     #print('this is the directory ', ooosht)
@@ -67,23 +68,22 @@ class GrabbingPayStubs(unittest.TestCase):
                 pdfName = (pdf + '.pdf')
                 self.cdriver.find_element_by_link_text(lnk).click()
 
-                time.sleep(4)
+                #time.sleep(4)
 
                 tango = self.cdriver.find_element_by_id('embedPdf').get_attribute('src')
                 self.cdriver.get(tango)
                 time.sleep(4)
                 Forge.rename('download.pdf', pdfName)
-                time.sleep(4)
+                #time.sleep(4)
 
                 self.cdriver.find_element_by_id('cancelTopCenter').click()
-                time.sleep(6)
+                #time.sleep(6)
 
-            #clicking to next page of results & refreshing element of page
-            #foxtrot = self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]')
-            if self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]').is_displayed():
+            try:
                 self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]').click()
                 time.sleep(6)
-            else: whenToStop = False
+            except NoSuchElementException:
+                whenToStop = False
 
         self.assertTrue(True, 'huh')
 
@@ -97,4 +97,5 @@ class GrabbingPayStubs(unittest.TestCase):
             yrFolder = self.downloadFilePath + '/' + year
             pdfs_In_Folder = Forge.listdir(self.downloadFilePath)
             for pdf in pdfs_In_Folder:
-                if txtF in pdf: shutil.move(pdf, yrFolder)
+                if txtF in pdf:
+                    shutil.move(pdf, yrFolder)
