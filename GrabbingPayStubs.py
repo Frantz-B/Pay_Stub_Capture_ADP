@@ -36,15 +36,19 @@ class GrabbingPayStubs(unittest.TestCase):
 
         self.cdriver.find_element_by_id('menuHit.node2').click()
         self.cdriver.find_element_by_partial_link_text('Pay Statement').click()
-        #time.sleep(150)
 
         #I Know Kung Fu..
-        moko = self.cdriver.find_element_by_xpath('//*[contains (@id, "viewns_Z7")]/b')
-
-
-        whenToStop = True
+        moko = int(self.cdriver.find_element_by_xpath('//*[contains (@id, "viewns_Z7")]/b').text)
+        self.cdriver.execute_script("$(window.open('https://twitter.com'))")
+        self.cdriver.switch_to_window(self.cdriver.window_handles[-1])
+        #time.sleep(12)
+        self.cdriver.find_element_by_xpath('//*[@id="doc"]/div[1]/div/div[2]/div/a[2]/span').click()
+        time.sleep(30)
+        self.cdriver.close()
+        time.sleep(900)
+        #whenToStop = True
         count = 0
-        while whenToStop:
+        while True:
 
             #Grab 1st column names & years for paystubs
             whiskey2 = []
@@ -72,14 +76,13 @@ class GrabbingPayStubs(unittest.TestCase):
 
                 self.cdriver.find_element_by_id('cancelTopCenter').click()
 
-
             try:
                 self.cdriver.find_element_by_xpath('//*[@title="Click to display the next page of results"]').click()
                 time.sleep(6)
-            except NoSuchElementException:
-                whenToStop = False
-        self.assertEqual(moko, 77, "did not work")
-        #self.assertTrue(True, 'huh')
+            except NoSuchElementException: break
+                #whenToStop = False
+
+        self.assertEqual(moko, count, "Number of Downloads does not match Number of entries")
 
     def tearDown(self):
         for year in self.folderNames:
@@ -88,6 +91,7 @@ class GrabbingPayStubs(unittest.TestCase):
             txtF = year + '.pdf'
             yrFolder = self.downloadFilePath + '/' + year
             pdfs_In_Folder = Forge.listdir(self.downloadFilePath)
+
             for pdf in pdfs_In_Folder:
                 if txtF in pdf:
                     shutil.move(pdf, yrFolder)
