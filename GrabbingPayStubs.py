@@ -11,7 +11,7 @@ class GrabbingPayStubs(unittest.TestCase):
 
     chromeDriverLoc = "/Users/NewUser/Downloads/Automation/chromedriver"
     adpURL = 'https://online.adp.com/portal/login.html'
-    userName = 'FBazile@Innotech1'
+    userName = 'FBazile'
     passWord = ''
 
     downloadFilePath = '/Users/NewUser/Documents/Career/2'
@@ -38,14 +38,16 @@ class GrabbingPayStubs(unittest.TestCase):
         self.cdriver.find_element_by_partial_link_text('Pay Statement').click()
 
         #I Know Kung Fu..
-        moko = int(self.cdriver.find_element_by_xpath('//*[contains (@id, "viewns_Z7")]/b').text)
+        moko = int(self.cdriver.find_element_by_xpath('//*[contains(@id, "viewns_Z7")]/b').text)
+
         self.cdriver.execute_script("$(window.open('https://twitter.com'))")
-        self.cdriver.switch_to_window(self.cdriver.window_handles[-1])
+        self.cdriver.switch_to.window(self.cdriver.window_handles[-1])
         #time.sleep(12)
         self.cdriver.find_element_by_xpath('//*[@id="doc"]/div[1]/div/div[2]/div/a[2]/span').click()
         time.sleep(30)
         self.cdriver.close()
         time.sleep(900)
+
         #whenToStop = True
         count = 0
         while True:
